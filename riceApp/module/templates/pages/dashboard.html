@@ -1349,16 +1349,33 @@
             "responsive": true,
         });
 
-        $('form').submit(function() {
+        $('form').submit(function(e) {
+            e.preventDefault();
+
             var form = this;
             var formData = new FormData(form);
             $.ajax({
                 url: form.action,
+                method: 'post',
                 data: formData,
                 processData: false,
-                contentType: 'application/json',
+                contentType: false,
+                beforeSend: function() {
+                    $(document).Toasts('create', {
+                        class: 'bg-info',
+                        title: 'Toast Title',
+                        subtitle: 'Subtitle',
+                        body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+                    });
+                    $('.modal').modal('hide');
+                },
                 success: function(data) {
-                    
+                    $(document).Toasts('create', {
+                        class: 'bg-success',
+                        title: 'Toast Title',
+                        subtitle: 'Subtitle',
+                        body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+                    });
                 }
             });
         });
