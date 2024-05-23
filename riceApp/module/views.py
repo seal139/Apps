@@ -5,6 +5,11 @@ from .models         import StockRecord, PopulationData
 
 import json
 
+# Views
+def index(request):
+  template = loader.get_template('pages/dashboard.html')
+  return HttpResponse(template.render())
+
 # API Gateway
 def members(request):
   requestParameter = {}
