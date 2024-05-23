@@ -70,6 +70,8 @@ def train(input, output1, output2) :
     dump(consumptionModel, output2)
 
 # ----------- Main  -----------
+print("Hello World")    
+
 import sys
 
 exec = sys.argv[0] # prints python_script.py
