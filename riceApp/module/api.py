@@ -51,9 +51,9 @@ def route(command, requestParameter, fileParam):
   if command == 'insert-consumption-bulk' :
     file_stream = io.TextIOWrapper(fileParam.file, encoding='utf-8')
     csvreader   = csv.DictReader(file_stream)
-    list = list(csvreader)
+    listreader = list(csvreader)
         
-    for row in list:
+    for row in listreader:
       year        = row['year']
       population  = row['population']
       consumption = row['consumption']
@@ -76,9 +76,9 @@ def route(command, requestParameter, fileParam):
   if command == 'insert-stock-bulk' :
     file_stream = io.TextIOWrapper(fileParam.file, encoding='utf-8')
     csvreader   = csv.DictReader(file_stream)
-    list = list(csvreader)
+    listreader = list(csvreader)
         
-    for row in list:
+    for row in listreader:
       month = row['month']
       year  = row['year']
       stock = row['stock']
