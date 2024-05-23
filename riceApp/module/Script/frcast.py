@@ -64,14 +64,14 @@ def predict(input1, input2) :
         exog  = exogenous_vars
     )
 
-    print(predictions.tolist())
+    return predictions.tolist()
 
 # Create and train new model based on input file and save the model into output file
 def train(input, output) :
     data = pd.read_json(input)
 
-    target_data    = data.iloc[:, 2]    # Stok
-    exogenous_vars = data.iloc[:, [0]]  # Bulan
+    target_data    = data.iloc[:, 3]    # Stok
+    exogenous_vars = data.iloc[:, [1]]  # Bulan
 
     split_index = int(len(target_data) - 22)
 

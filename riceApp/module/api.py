@@ -83,7 +83,7 @@ def route(command, requestParameter, fileParam):
       year  = row['year']
       stock = row['stock']
 
-      insertStock(month, year, math.sqrt(int(stock)))
+      insertStock(year, month, math.sqrt(int(stock)))
       
     data = json.dumps(list(StockRecord.objects.all().values()), indent=4)
     frcast.train(data, 'stock.model')
@@ -145,7 +145,7 @@ def viewStocks():
   predictions = frcast.predict('stock.model', json.dumps(exogeneous, indent=4))
   
   data = {
-    'historical'  : json.dumps(stock_records, indent=4),
+    'historical'  : stock_records,
     'prediction'  : predictions
   }
 
@@ -164,8 +164,8 @@ def viewConsumption():
   predictions.append(regr.predict('population.model', 'consumption.model', predictNext2))
 
   data = {
-    'historical'  : json.dumps(population_data, indent=4),
-    'prediction'  : json.dumps(predictions, indent=4)
+    'historical'  : population_data,
+    'prediction'  : predictions
   }
 
   return data
