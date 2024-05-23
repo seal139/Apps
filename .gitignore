@@ -1,5 +1,3 @@
-pyproject.toml
-poetry.lock
 riceApp/module/__pycache__/
 riceApp/riceApp/__pycache__/
 riceApp/module/migrations/__pycache__/
