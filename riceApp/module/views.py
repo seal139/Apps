@@ -11,7 +11,7 @@ def index(request):
   return HttpResponse(template.render())
 
 # API Gateway
-def members(request):
+def api(request):
   requestParameter = {}
   fileParam        = None
   command          = None
