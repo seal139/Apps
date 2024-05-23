@@ -68,7 +68,20 @@ def route(command, requestParameter, fileParam):
     return send(200, 'Ok')
   
   if command == 'insert-stock-bulk' :
+    file_stream = io.TextIOWrapper(fileParam.file, encoding='utf-8')
+    csvreader   = csv.DictReader(file_stream)
+        
+    for row in csvreader:
+      month = row['month']
+      year  = row['year']
+      stock = row['stock']
 
+      insertStock(month, year, stock)
+      
+    data = json.dumps(list(StockRecord.objects.all().values()), indent=4)
+    frcast.train(data, 'stock.model')
+  
+    return send(200, 'Ok')
 
   if command == 'delete-stock' :
     return send(200, 'Ok')
