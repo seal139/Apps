@@ -1217,7 +1217,8 @@
     <div class="modal fade" id="upload-stock-record">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <form>
+                <form method="post" action="../api/insert-stock-bulk/" enctype="multipart/form-data">
+                    {% csrf_token %}
                     <div class="modal-header">
                         <h4 class="modal-title">Upload Stock Record</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -1229,7 +1230,7 @@
                             <label for="exampleInputFile">File input</label>
                             <div class="input-group">
                                 <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="exampleInputFile">
+                                    <input type="file" class="custom-file-input" id="exampleInputFile" name="file">
                                     <label class="custom-file-label" for="exampleInputFile">Choose file</label>
                                 </div>
                                 <div class="input-group-append">
@@ -1240,7 +1241,7 @@
                     </div>
                     <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
                     </div>
                 </form>
             </div>
@@ -1313,7 +1314,7 @@
                             <label for="exampleInputFile">File input</label>
                             <div class="input-group">
                                 <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="exampleInputFile">
+                                    <input type="file" class="custom-file-input" id="exampleInputFile" name="file">
                                     <label class="custom-file-label" for="exampleInputFile">Choose file</label>
                                 </div>
                                 <div class="input-group-append">
@@ -1324,7 +1325,7 @@
                     </div>
                     <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
                     </div>
                 </form>
             </div>
@@ -1346,6 +1347,20 @@
             "info": true,
             "autoWidth": false,
             "responsive": true,
+        });
+
+        $('form').submit(function() {
+            var form = this;
+            var formData = new FormData(form);
+            $.ajax({
+                url: form.action,
+                data: formData,
+                processData: false,
+                contentType: 'application/json',
+                success: function(data) {
+                    
+                }
+            });
         });
     });
 </script>

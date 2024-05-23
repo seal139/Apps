@@ -2,3 +2,7 @@ pyproject.toml
 poetry.lock
 riceApp/module/__pycache__/
 riceApp/riceApp/__pycache__/
+riceApp/module/migrations/__pycache__/
+riceApp/module/Script/__pycache__/
+riceApp/stock.model
+riceApp/db.sqlite3

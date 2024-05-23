@@ -2,6 +2,7 @@ from django.http     import JsonResponse
 from .models         import StockRecord, PopulationData
 from .Script         import frcast as frcast
 from .Script         import regr   as regr
+from django.views.decorators.csrf import csrf_exempt
 
 import csv
 import io
@@ -9,6 +10,7 @@ import json
 import math
 
 # API Gateway
+@csrf_exempt
 def api(request, command):
   requestParameter = {}
   fileParam        = None
@@ -49,13 +51,14 @@ def route(command, requestParameter, fileParam):
   if command == 'insert-consumption-bulk' :
     file_stream = io.TextIOWrapper(fileParam.file, encoding='utf-8')
     csvreader   = csv.DictReader(file_stream)
+    list = list(csvreader)
         
-    for row in csvreader:
+    for row in list:
       year        = row['year']
       population  = row['population']
       consumption = row['consumption']
 
-      insertPopulation(year, population, math.sqrt(consumption))
+      insertPopulation(year, population, math.sqrt(int(consumption)))
 
     data = json.dumps(list(PopulationData.objects.all().values()), indent=4)
     regr.train(data, 'population.model', 'consumption.model')
@@ -73,13 +76,14 @@ def route(command, requestParameter, fileParam):
   if command == 'insert-stock-bulk' :
     file_stream = io.TextIOWrapper(fileParam.file, encoding='utf-8')
     csvreader   = csv.DictReader(file_stream)
+    list = list(csvreader)
         
-    for row in csvreader:
+    for row in list:
       month = row['month']
       year  = row['year']
       stock = row['stock']
 
-      insertStock(month, year, math.sqrt(stock))
+      insertStock(month, year, math.sqrt(int(stock)))
       
     data = json.dumps(list(StockRecord.objects.all().values()), indent=4)
     frcast.train(data, 'stock.model')
@@ -100,7 +104,7 @@ def route(command, requestParameter, fileParam):
   
   return send(400, 'Bad Request')
 
-def send(code, message , data):
+def send(code, message , data={}):
   data = {
     'code'    : code,
     'message' : message,
@@ -109,8 +113,8 @@ def send(code, message , data):
   
   return JsonResponse(data)
 
-def insertStock(year, month, avg_stock, stock_type):
-  StockRecord.objects.create(year=year, month=month, avgStock=avg_stock, type=stock_type)
+def insertStock(year, month, avg_stock):
+  StockRecord.objects.create(year=year, month=month, avgStock=avg_stock)
 
 def insertPopulation(year, population, consumption_rate):
   PopulationData.objects.create(year=year, population=population, consumptionRate=consumption_rate)
