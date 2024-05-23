@@ -55,7 +55,7 @@ def draw(model, input1, input2, output) :
 
 def predict(input1, input2) :
 
-    data           = pd.read_csv(input2)
+    data           = pd.read_json(input2)
     exogenous_vars = data.iloc[:, [0]] 
 
     stockModel  = load(input1)
@@ -123,16 +123,3 @@ def train(input, output) :
             ).fit()
     
     dump(candidate, output)
-
-
-import sys
-
-exec = sys.argv[0] # prints python_script.py
-comm = sys.argv[1] 
-
-if comm == "train" :
-    train(sys.argv[2], sys.argv[3])
-elif comm == "predict" :
-    predict(sys.argv[2], sys.argv[3])
-elif comm == "draw" :
-    draw(sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5])

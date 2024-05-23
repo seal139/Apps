@@ -6,6 +6,7 @@ from .Script         import regr   as regr
 import csv
 import io
 import json
+import math
 
 # API Gateway
 def api(request, command):
@@ -38,7 +39,7 @@ def route(command, requestParameter, fileParam):
 
 
   if command == 'insert-consumption' :
-    insertPopulation(requestParameter('param0'), requestParameter('param1'), requestParameter('param2'))
+    insertPopulation(requestParameter('param0'), requestParameter('param1'), math.sqrt(requestParameter('param2')))
 
     data = json.dumps(list(PopulationData.objects.all().values()), indent=4)
     regr.train(data, 'population.model', 'consumption.model')
@@ -54,7 +55,7 @@ def route(command, requestParameter, fileParam):
       population  = row['population']
       consumption = row['consumption']
 
-      insertPopulation(year, population, consumption)
+      insertPopulation(year, population, math.sqrt(consumption))
 
     data = json.dumps(list(PopulationData.objects.all().values()), indent=4)
     regr.train(data, 'population.model', 'consumption.model')
@@ -62,7 +63,7 @@ def route(command, requestParameter, fileParam):
     return send(200, 'Ok', None)
 
   if command == 'insert-stock' :
-    insertStock(requestParameter('param0'), requestParameter('param1'), requestParameter('param2'), True)
+    insertStock(requestParameter('param0'), requestParameter('param1'), math.sqrt(requestParameter('param2')), True)
 
     data = json.dumps(list(StockRecord.objects.all().values()), indent=4)
     frcast.train(data, 'stock.model')
@@ -78,7 +79,7 @@ def route(command, requestParameter, fileParam):
       year  = row['year']
       stock = row['stock']
 
-      insertStock(month, year, stock)
+      insertStock(month, year, math.sqrt(stock))
       
     data = json.dumps(list(StockRecord.objects.all().values()), indent=4)
     frcast.train(data, 'stock.model')

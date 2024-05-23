@@ -47,7 +47,7 @@ def predict(input1, input2, year) :
 def train(input, output1, output2) :
 
     # Data
-    data = pd.read_csv(input)
+    data = pd.read_json(input)
 
     # Population Model
     xYear       = np.array(data.iloc[:, 0].tolist())
@@ -68,16 +68,3 @@ def train(input, output1, output2) :
     # Save to file
     dump(populationModel, output1)
     dump(consumptionModel, output2)
-
-# ----------- Main  -----------
-print("Hello World")    
-
-import sys
-
-exec = sys.argv[0] # prints python_script.py
-comm = sys.argv[1] 
-
-if comm == "train" :
-    train(sys.argv[2], sys.argv[3], sys.argv[4])
-elif comm == "predict" :
-    predict(sys.argv[2], sys.argv[3], sys.argv[4])

@@ -4,5 +4,5 @@ from . import api
 
 urlpatterns = [
     path('module/', views.index, name='module'),
-    path('api/<slug:command>/', api.api)
+    path('api/<slug:command>/', api.api),
 ]
