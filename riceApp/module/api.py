@@ -24,7 +24,9 @@ def api(request, command):
       param_index += 1
   
   if request.method == 'POST':
-    fileParam = request.FILES.get('fileInp')
+    fileParam = request.FILES.get('file')
+
+  return route(command, requestParameter, fileParam)
 
 def route(command, requestParameter, fileParam):
     
