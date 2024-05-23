@@ -56,7 +56,7 @@ def draw(model, input1, input2, output) :
 def predict(input1, input2) :
 
     data           = pd.read_json(input2)
-    exogenous_vars = data.iloc[:, [0]] 
+    exogenous_vars = data[['month']] 
 
     stockModel  = load(input1)
     predictions = stockModel.forecast(
@@ -70,16 +70,16 @@ def predict(input1, input2) :
 def train(input, output) :
     data = pd.read_json(input)
 
-    target_data    = data.iloc[:, 3]    # Stok
-    exogenous_vars = data.iloc[:, [1]]  # Bulan
+    target_data    = data[['avgStock']]     # Stok
+    exogenous_vars = data[['month']]   # Bulan
 
     split_index = int(len(target_data) - 22)
 
     train_target = target_data[:split_index]
-    test_target = target_data[split_index:]
+    test_target  = target_data[split_index:]
 
     train_exog = exogenous_vars[:split_index]
-    test_exog = exogenous_vars[split_index:]
+    test_exog  = exogenous_vars[split_index:]
 
     best_combinationIn = None
     best_return = float('-inf')
@@ -98,7 +98,7 @@ def train(input, output) :
                 seasonal_order = (p, d, q, 12)
             ).fit()
 
-            eval = candidate.forecast(
+            eval  = candidate.forecast(
             steps = len(test_target),  # Forecast the same number of steps as the test data length
             exog  = test_exog
             )
@@ -108,18 +108,19 @@ def train(input, output) :
             # Update the best combination and return if the current result is better
             if r2 > best_return:
                 best_combinationIn = (p, d, q)
-                best_return = r2
+                best_return        = r2
+
         except Exception as e:
             continue
 
     p, d, q = best_combinationIn
     candidate = SARIMAX(
-                seasonal       = True,  # Set to True if seasonality is present
-                stepwise       = True,
-                endog          = target_data,
-                exog           = exogenous_vars,
-                order          = (p, d, q),  # Adjust the order as needed (p, d, q)
-                seasonal_order = (p, d, q, 12)
-            ).fit()
+            seasonal       = True,  # Set to True if seasonality is present
+            stepwise       = True,
+            endog          = target_data,
+            exog           = exogenous_vars,
+            order          = (p, d, q),  # Adjust the order as needed (p, d, q)
+            seasonal_order = (p, d, q, 12)
+        ).fit()
     
     dump(candidate, output)

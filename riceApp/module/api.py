@@ -1,13 +1,159 @@
-from django.http     import JsonResponse
-from .models         import StockRecord, PopulationData
-from .Script         import frcast as frcast
-from .Script         import regr   as regr
+from django.http  import JsonResponse
+from .models      import StockRecord, PopulationData
+from .Script      import frcast as frcast
+from .Script      import regr   as regr
+
 from django.views.decorators.csrf import csrf_exempt
 
 import csv
 import io
 import json
 import math
+
+cmd = {}
+
+def viewStocks(requestParameter):
+  stock_records = list(StockRecord.objects.all().values())
+
+  lastStock = stock_records[-1]
+  lastYear  = lastStock.get('year')
+  lastMonth = lastStock.get('month')
+
+  exogeneous = []
+  nextYear   = lastYear 
+  for i in range(1, 25):
+    nextMonth = (lastMonth + i) % 12
+
+    if nextMonth == 0 :
+      nextMonth = 12
+    elif nextMonth == 1 :
+      nextYear += 1
+
+    data = {
+      'month' : nextMonth,
+      'year'  : nextYear
+    }
+
+    exogeneous.append(data)
+
+  stocks = frcast.predict('stock.model', json.dumps(exogeneous, indent=4))
+
+  predictions = []
+  nextMonth   = lastMonth
+  nextYear    = lastYear 
+  for stock in stocks:
+    nextMonth += 1
+
+    if nextMonth == 13 :
+      nextMonth = 1
+      nextYear += 1
+
+    data = {
+      'month'     : nextMonth,
+      'year'      : nextYear,
+      'avgStock'  : stock
+    }
+
+    predictions.append(data)
+  
+  data = {
+    'historical'  : stock_records,
+    'prediction'  : predictions
+  }
+
+  return send(True, 'ok', data)
+cmd['fetch-stock'] = viewStocks
+
+def viewConsumption(requestParameter):
+  population_data = list(PopulationData.objects.all().values())
+
+  lastYear = population_data[-1].get('year')
+
+  predictNext1 = lastYear + 1
+  predictNext2 = lastYear + 2
+
+  predictions = []
+  predictions.append(regr.predict('population.model', 'consumption.model', predictNext1))
+  predictions.append(regr.predict('population.model', 'consumption.model', predictNext2))
+
+  data = {
+    'historical'  : population_data,
+    'prediction'  : predictions
+  }
+
+  return send(True, 'ok', data)
+cmd['fetch-consumption'] = viewConsumption
+
+def insertStock(requestParameter) :
+  year     = requestParameter('param0')
+  month    = requestParameter('param1')
+  avgStock = math.sqrt(requestParameter('param2'))
+
+  StockRecord.objects.create(year, month, avgStock)
+
+  data = json.dumps(list(StockRecord.objects.all().values()), indent=4)
+  frcast.train(data, 'stock.model')  
+cmd['insert-stock'] = insertStock
+
+def bulkStockInsert(requestParameter) :
+  file_stream = io.TextIOWrapper(requestParameter['paramFile'].file, encoding='utf-8')
+  csvreader   = csv.DictReader(file_stream)
+  listreader  = list(csvreader)
+      
+  for row in listreader:
+    month    = row['month']
+    year     = row['year']
+    avgStock = row['stock']
+
+    StockRecord.objects.create(year, month, avgStock)
+    
+  data = json.dumps(list(StockRecord.objects.all().values()), indent=4)
+  frcast.train(data, 'stock.model')
+
+  return send(True, 'ok')
+cmd['insert-stock-bulk'] = bulkStockInsert
+
+def insertConsumption(requestParameter):
+  year            = requestParameter('param0')
+  population      = requestParameter('param1')
+  consumptionRate = math.sqrt(requestParameter('param2'))
+
+  PopulationData.objects.create(year, population, consumptionRate)
+
+  data = json.dumps(list(PopulationData.objects.all().values()), indent=4)
+  regr.train(data, 'population.model', 'consumption.model')
+
+  return send(True, 'ok', None)
+cmd['insert-consumption'] = insertConsumption
+
+def bulkConsumptionInsert(requestParameter) :
+  file_stream = io.TextIOWrapper(requestParameter['paramFile'].file, encoding='utf-8')
+  csvreader   = csv.DictReader(file_stream)
+  listreader = list(csvreader)
+        
+  for row in listreader:
+    year        = row['year']
+    population  = row['population']
+    consumptionRate = row['consumption']
+
+    PopulationData.objects.create(year, population, consumptionRate)
+
+  data = json.dumps(list(PopulationData.objects.all().values()), indent=4)
+  regr.train(data, 'population.model', 'consumption.model')
+
+  return send(200, 'ok', None)
+cmd['insert-consumption-bulk'] = bulkConsumptionInsert
+
+# -----=== Auto controller ===-----
+
+def send(status, message , data={}):
+  data = {
+    'status'    : status,
+    'message' : message,
+    'data'    : data
+  }
+  
+  return JsonResponse(data)
 
 # API Gateway
 @csrf_exempt
@@ -27,145 +173,14 @@ def api(request, command):
       param_index += 1
   
   if request.method == 'POST':
-    fileParam = request.FILES.get('file')
+    requestParameter['paramFile'] = request.FILES.get('file')
 
-  return route(command, requestParameter, fileParam)
+  return executor(command, requestParameter)
 
-def route(command, requestParameter, fileParam):
-    
-  if command == 'fetch-stock' :
-    return send(200, 'ok', viewStocks())
-  
-  if command == 'fetch-consumption' :
-    return send(200, 'ok', viewConsumption())
+def executor(function_name, *args, **kwargs):
+  func = cmd.get(function_name)
 
-
-  if command == 'insert-consumption' :
-    insertPopulation(requestParameter('param0'), requestParameter('param1'), math.sqrt(requestParameter('param2')))
-
-    data = json.dumps(list(PopulationData.objects.all().values()), indent=4)
-    regr.train(data, 'population.model', 'consumption.model')
-
-    return send(200, 'Ok', None)
-  
-  if command == 'insert-consumption-bulk' :
-    file_stream = io.TextIOWrapper(fileParam.file, encoding='utf-8')
-    csvreader   = csv.DictReader(file_stream)
-    listreader = list(csvreader)
-        
-    for row in listreader:
-      year        = row['year']
-      population  = row['population']
-      consumption = row['consumption']
-
-      insertPopulation(year, population, math.sqrt(int(consumption)))
-
-    data = json.dumps(list(PopulationData.objects.all().values()), indent=4)
-    regr.train(data, 'population.model', 'consumption.model')
-
-    return send(200, 'Ok', None)
-
-  if command == 'insert-stock' :
-    insertStock(requestParameter('param0'), requestParameter('param1'), math.sqrt(requestParameter('param2')), True)
-
-    data = json.dumps(list(StockRecord.objects.all().values()), indent=4)
-    frcast.train(data, 'stock.model')
-  
-    return send(200, 'Ok')
-  
-  if command == 'insert-stock-bulk' :
-    file_stream = io.TextIOWrapper(fileParam.file, encoding='utf-8')
-    csvreader   = csv.DictReader(file_stream)
-    listreader = list(csvreader)
-        
-    for row in listreader:
-      month = row['month']
-      year  = row['year']
-      stock = row['stock']
-
-      insertStock(year, month, math.sqrt(int(stock)))
-      
-    data = json.dumps(list(StockRecord.objects.all().values()), indent=4)
-    frcast.train(data, 'stock.model')
-  
-    return send(200, 'Ok')
-
-  if command == 'delete-stock' :
-    return send(200, 'Ok')
-
-  if command == 'delete-consumption' :
-    return send(200, 'Ok')
-
-  if command == 'update-stock' :
-    return send(200, 'Ok')
-
-  if command == 'update-consumption' :
-    return send(200, 'Ok')
-  
-  return send(400, 'Bad Request')
-
-def send(code, message , data={}):
-  data = {
-    'code'    : code,
-    'message' : message,
-    'data'    : data
-  }
-  
-  return JsonResponse(data)
-
-def insertStock(year, month, avg_stock):
-  StockRecord.objects.create(year=year, month=month, avgStock=avg_stock)
-
-def insertPopulation(year, population, consumption_rate):
-  PopulationData.objects.create(year=year, population=population, consumptionRate=consumption_rate)
-
-def viewStocks():
-  stock_records = list(StockRecord.objects.all().values())
-
-  lastStock = stock_records[-1]
-  lastYear  = lastStock.get('year')
-  lastMonth = lastStock.get('month')
-
-  exogeneous = []
-  for i in range(1, 25):
-    nextMonth = lastMonth + i
-    nextYear  = lastYear 
-
-    if nextMonth == 13 :
-      nextMonth = 1
-      nextYear += 1
-
-    data = {
-      'month' : nextMonth,
-      'year'  : nextYear
-    }
-
-    exogeneous.append(data)
-
-  predictions = frcast.predict('stock.model', json.dumps(exogeneous, indent=4))
-  
-  data = {
-    'historical'  : stock_records,
-    'prediction'  : predictions
-  }
-
-  return data #son.dumps(stock_records, indent=4)
-
-def viewConsumption():
-  population_data = list(PopulationData.objects.all().values())
-
-  lastYear = population_data[-1].get('year')
-
-  predictNext1 = lastYear + 1
-  predictNext2 = lastYear + 2
-
-  predictions = []
-  predictions.append(regr.predict('population.model', 'consumption.model', predictNext1))
-  predictions.append(regr.predict('population.model', 'consumption.model', predictNext2))
-
-  data = {
-    'historical'  : population_data,
-    'prediction'  : predictions
-  }
-
-  return data
+  if func:
+      return func(*args, **kwargs)
+  else:
+      return send(False, 'Bad Request', None)
