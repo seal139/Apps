@@ -43,7 +43,6 @@ Steps:
 Prerequisites:
 - Python 3.11
 - pip
-- poetry
 
 <br/>
 
