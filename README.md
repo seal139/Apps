@@ -1,67 +1,77 @@
 Linux environment with poetry is recommended.
 
-// -----===== If you are linux user, follow these steps
+<br/><br/>
+
+// -----===== If you are linux user, follow these steps <br/>
 Prerequisites:
-1. Python 3.11
-2. pip
-3. poetry
+- Python 3.11
+- pip
+- poetry
 
+<br/>
 
-- navigate console to project root directory
+Steps: 
+1. navigate console to project root directory
 
-1. For nix user, execute command below
-> nix-shell
+2. For nix user, execute command below
+> nix-shell <br/>
+
+3. navigate to riceApp
+> cd riceApp <br/>
+
+4. Download dependency
+> poetry update <br/>
+
+5. Setup database table
+>  poetry run python manage.py makemigrations <br/>
+
+6. Reset database and model
+> rm db.sqlite3 <br/>
+> rm stock.model <br/>
+> rm population.model <br/>
+> rm consumption.model <br/>
+
+7. Rebuild database
+> poetry run python manage.py migrate <br/>
+
+8. Run server
+> poetry run python manage.py runserver <br/>
+
+<br/><br/>
+
+// -----===== If you are windows user, follow these steps <br/>
+Prerequisites:
+- Python 3.11
+- pip
+- poetry
+
+<br/>
+
+Steps: 
+
+1. Open cmd and navigate to project root directory
 
 2. navigate to riceApp
-> cd riceApp
+> cd riceApp <br/>
 
 3. Download dependency
-> poetry update
+> pip install Django <br/>
+> pip install matplotlib <br/>
+> pip install scikit-learn <br/>
+> pip install pandas <br/>
+> pip install statsmodel <br/>
 
 4. Setup database table
->  poetry run python manage.py makemigrations
+> python manage.py makemigrations <br/>
 
 5. Reset database and model
-> rm db.sqlite3
-> rm stock.model
-> rm population.model
-> rm consumption.model
+> del db.sqlite3 <br/>
+> del stock.model <br/>
+> del population.model <br/>
+> del consumption.model <br/>
 
 6. Rebuild database
-> poetry run python manage.py migrate
+> python manage.py migrate <br/>
 
 7. Run server
-> poetry run python manage.py runserver
-
-
-// -----===== If you are windows user, follow these steps
-Prerequisites
-1. Python 3.11
-2. pip
-
-- Open cmd and navigate to project root directory
-
-1. navigate to riceApp
-> cd riceApp
-
-2. Download dependency
-> pip install Django
-> pip install matplotlib
-> pip install scikit-learn
-> pip install pandas
-> pip install statsmodel
-
-3. Setup database table
-> python manage.py makemigrations
-
-4. Reset database and model
-> del db.sqlite3
-> del stock.model
-> del population.model
-> del consumption.model
-
-5. Rebuild database
-> python manage.py migrate
-
-6. Run server
-> python manage.py runserver
+> python manage.py runserver <br/>
