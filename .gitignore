@@ -1,6 +1,11 @@
-riceApp/module/__pycache__/
 riceApp/riceApp/__pycache__/
+riceApp/module/__pycache__/
 riceApp/module/migrations/__pycache__/
-riceApp/module/Script/__pycache__/
+riceApp/module/ml/__pycache__/
+riceApp/module/dao/__pycache__/
+riceApp/module/migrations
+
 riceApp/stock.model
+riceApp/population.model
+riceApp/consumption.model
 riceApp/db.sqlite3

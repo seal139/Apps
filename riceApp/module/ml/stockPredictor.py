@@ -1,28 +1,5 @@
-
-# Help
-# 1. Train
-# frcast.py train [training csv] [output]
-# return: {void}
-
-# 2. Predict
-# frcast.py predict [model] [exogenous csv] 
-# return: [array of predicted stock
-
-#Example: Train and predict
-# frcast.py train history.csv regmodel
-# frcast.py predict regmodel exogenous.csv
-
-# Historical csv format must have 3 column and not nullable
-# ----------------------------------------------------------- 
-# | Month | Year | Square root of avg stock |
-# -----------------------------------------------------------
-
-# ----------- Function  -----------
-
 import itertools
-import numpy             as np
-import pandas            as pd
-import matplotlib.pyplot as plt
+import pandas as pd
 
 from joblib                             import dump, load
 from sklearn.metrics                    import r2_score
@@ -30,28 +7,6 @@ from statsmodels.tsa.statespace.sarimax import SARIMAX
 
 import warnings
 warnings.filterwarnings('ignore')
-
-def draw(model, input1, input2, output) :
-    train_target   = pd.read_csv(input1).iloc[:, 2] 
-    exogenous_vars = pd.read_csv(input2).iloc[:, [0]] 
-
-    stockModel  = load(model)
-    predictions = stockModel.forecast(
-        steps = len(exogenous_vars),  # Forecast the same number of steps as the test data length
-        exog  = exogenous_vars
-    )
-
-
-    plt.figure(figsize=(20, 6))
-    plt.plot(train_target.index, train_target, label='Historical Data')
-    plt.plot(predictions.index, predictions, label='Predicted Data', linestyle='--')
-
-    plt.xticks(range(0, 1+len(train_target) + len(predictions), 6))
-    plt.xlabel('Index')
-    plt.ylabel('Value')
-    plt.legend()
-    
-    plt.savefig(output)  
 
 def predict(input1, input2) :
 
@@ -65,6 +20,7 @@ def predict(input1, input2) :
     )
 
     return predictions.tolist()
+#end def
 
 # Create and train new model based on input file and save the model into output file
 def train(input, output) :
@@ -82,7 +38,7 @@ def train(input, output) :
     test_exog  = exogenous_vars[split_index:]
 
     best_combinationIn = None
-    best_return = float('-inf')
+    best_return        = float('-inf')
 
     # Iterate over all possible combinations of values for a, b, c, p, q, and r
     for p, d, q in itertools.product(range(3), repeat=3):
@@ -99,8 +55,8 @@ def train(input, output) :
             ).fit()
 
             eval  = candidate.forecast(
-            steps = len(test_target),  # Forecast the same number of steps as the test data length
-            exog  = test_exog
+                steps = len(test_target),  # Forecast the same number of steps as the test data length
+                exog  = test_exog
             )
 
             r2 = r2_score(test_target, eval)
@@ -109,11 +65,14 @@ def train(input, output) :
             if r2 > best_return:
                 best_combinationIn = (p, d, q)
                 best_return        = r2
+            #end if
 
         except Exception as e:
             continue
+        #end try
+    #end for
 
-    p, d, q = best_combinationIn
+    p, d, q   = best_combinationIn
     candidate = SARIMAX(
             seasonal       = True,  # Set to True if seasonality is present
             stepwise       = True,
@@ -124,3 +83,4 @@ def train(input, output) :
         ).fit()
     
     dump(candidate, output)
+#end def
