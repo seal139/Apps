@@ -1,7 +1,7 @@
 from django.db import models
 
 # Create your models here.
-class StockRecord(models.Model):
+class Stock(models.Model):
     year     = models.IntegerField()
     month    = models.IntegerField()
     avgStock = models.FloatField()
@@ -9,7 +9,7 @@ class StockRecord(models.Model):
     def __str__(self):
         return f"{self.year}-{self.month} (Type: {'True' if self.type else 'False'}): {self.avgStock}"
     
-class PopulationData(models.Model):
+class Consumption(models.Model):
     year            = models.IntegerField()
     population      = models.FloatField()
     consumptionRate = models.FloatField()
