@@ -1,1384 +1,512 @@
 {% extends 'layouts/main_layout.html' %}
-
-{% block title %}Dashboard{% endblock %}
-
+{% block title %}Rice Stock Analysis{% endblock %}
 {% block content %}
+
 <!-- Content Header (Page header) -->
 <div class="content-header">
     <div class="container-fluid">
-    <div class="row mb-2">
-        <div class="col-sm-6">
-        <h1 class="m-0">Dashboard</h1>
-        </div><!-- /.col -->
-        <div class="col-sm-6">
-        <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item active">Dashboard v1</li>
-        </ol>
-        </div><!-- /.col -->
-    </div><!-- /.row -->
-    </div><!-- /.container-fluid -->
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">Dashboard</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item">DKI Jakarta</li>
+                    <li class="breadcrumb-item active">Pasar Induk Beras Cipinang</li>
+                </ol>
+            </div>
+        </div>
+    </div>
 </div>
-<!-- /.content-header -->
 
 <!-- Main content -->
 <section class="content">
     <div class="container-fluid">
-        <!-- Small boxes (Stat box) -->
-        <div class="row">
-            <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-info">
-                <div class="inner">
-                <h3>150</h3>
+        
+        <!-- -----======= Widget Section =======----- -->
+        <div class="row">             
 
-                <p>New Orders</p>
-                </div>
-                <div class="icon">
-                <i class="ion ion-bag"></i>
-                </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-            </div>
-            <!-- ./col -->
-            <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-success">
-                <div class="inner">
-                <h3>53<sup style="font-size: 20px">%</sup></h3>
+            <!-- ----- Left-Widget Section ----- -->
+            <section class="col-lg-7">
 
-                <p>Bounce Rate</p>
-                </div>
-                <div class="icon">
-                <i class="ion ion-stats-bars"></i>
-                </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-            </div>
-            <!-- ./col -->
-            <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-warning">
-                <div class="inner">
-                <h3>44</h3>
+                <!-- -----======= Card Section =======----- -->
+                <div class="row">
+                    <!-- Daily Needs -->
+                    <div class="col-lg-6">
+                        <div class="small-box bg-info">
+                            <div class="inner">
+                                <h3 id ="daily-needs-value">0<sup style="font-size: 20px">tons</sup></h3>
+                                <p>Daily Needs</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-bag"></i>
+                            </div>
 
-                <p>User Registrations</p>
-                </div>
-                <div class="icon">
-                <i class="ion ion-person-add"></i>
-                </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-            </div>
-            <!-- ./col -->
-            <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-danger">
-                <div class="inner">
-                <h3>65</h3>
-
-                <p>Unique Visitors</p>
-                </div>
-                <div class="icon">
-                <i class="ion ion-pie-graph"></i>
-                </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-            </div>
-            <!-- ./col -->
-        </div>
-        <!-- /.row -->
-        <!-- Main row -->
-        <div class="row">
-            <!-- Left col -->
-            <section class="col-lg-7 connectedSortable">
-                <!-- Stock Record -->
-                <div class="card stock-record">
-                    <div class="card-header">
-                        <h3 class="card-title">Stock Record</h3>
-                        <div class="card-tools">
-                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                <i class="fas fa-minus"></i>
-                            </button>
-                            <button type="button" class="btn btn-tool" title="Contacts" data-widget="chat-pane-toggle">
-                                <i class="fas fa-comments"></i>
-                            </button>
-                            <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                <i class="fas fa-times"></i>
-                            </button>
+                            <a href="#" class="small-box-footer" data-toggle="modal" data-target="#daily-needs-card">More info <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
-                    <!-- /.card-header -->
-                    <div class="card-body">
-                        <div class="d-flex mb-3" style="gap: 10px;">
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#form-stock-record">
-                                <i class="fas fa-plus"></i> Add Data
-                            </button>
-                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#form-stock-record">
-                                <i class="fas fa-plus"></i> Delete Data
-                            </button>
-                            <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#upload-stock-record">
-                                <i class="fas fa-plus"></i> Upload Data
-                            </button>
-                        </div>
-                        <div>
-                            <table id="example2" class="table table-bordered table-hover datatables" style="width: 100%">
-                                <thead>
-                                <tr>
-                                <th>Rendering engine</th>
-                                <th>Browser</th>
-                                <th>Platform(s)</th>
-                                <th>Engine version</th>
-                                <th>CSS grade</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                <td>Trident</td>
-                                <td>Internet
-                                    Explorer 4.0
-                                </td>
-                                <td>Win 95+</td>
-                                <td> 4</td>
-                                <td>X</td>
-                                </tr>
-                                <tr>
-                                <td>Trident</td>
-                                <td>Internet
-                                    Explorer 5.0
-                                </td>
-                                <td>Win 95+</td>
-                                <td>5</td>
-                                <td>C</td>
-                                </tr>
-                                <tr>
-                                <td>Trident</td>
-                                <td>Internet
-                                    Explorer 5.5
-                                </td>
-                                <td>Win 95+</td>
-                                <td>5.5</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Trident</td>
-                                <td>Internet
-                                    Explorer 6
-                                </td>
-                                <td>Win 98+</td>
-                                <td>6</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Trident</td>
-                                <td>Internet Explorer 7</td>
-                                <td>Win XP SP2+</td>
-                                <td>7</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Trident</td>
-                                <td>AOL browser (AOL desktop)</td>
-                                <td>Win XP</td>
-                                <td>6</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Gecko</td>
-                                <td>Firefox 1.0</td>
-                                <td>Win 98+ / OSX.2+</td>
-                                <td>1.7</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Gecko</td>
-                                <td>Firefox 1.5</td>
-                                <td>Win 98+ / OSX.2+</td>
-                                <td>1.8</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Gecko</td>
-                                <td>Firefox 2.0</td>
-                                <td>Win 98+ / OSX.2+</td>
-                                <td>1.8</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Gecko</td>
-                                <td>Firefox 3.0</td>
-                                <td>Win 2k+ / OSX.3+</td>
-                                <td>1.9</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Gecko</td>
-                                <td>Camino 1.0</td>
-                                <td>OSX.2+</td>
-                                <td>1.8</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Gecko</td>
-                                <td>Camino 1.5</td>
-                                <td>OSX.3+</td>
-                                <td>1.8</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Gecko</td>
-                                <td>Netscape 7.2</td>
-                                <td>Win 95+ / Mac OS 8.6-9.2</td>
-                                <td>1.7</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Gecko</td>
-                                <td>Netscape Browser 8</td>
-                                <td>Win 98SE+</td>
-                                <td>1.7</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Gecko</td>
-                                <td>Netscape Navigator 9</td>
-                                <td>Win 98+ / OSX.2+</td>
-                                <td>1.8</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Gecko</td>
-                                <td>Mozilla 1.0</td>
-                                <td>Win 95+ / OSX.1+</td>
-                                <td>1</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Gecko</td>
-                                <td>Mozilla 1.1</td>
-                                <td>Win 95+ / OSX.1+</td>
-                                <td>1.1</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Gecko</td>
-                                <td>Mozilla 1.2</td>
-                                <td>Win 95+ / OSX.1+</td>
-                                <td>1.2</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Gecko</td>
-                                <td>Mozilla 1.3</td>
-                                <td>Win 95+ / OSX.1+</td>
-                                <td>1.3</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Gecko</td>
-                                <td>Mozilla 1.4</td>
-                                <td>Win 95+ / OSX.1+</td>
-                                <td>1.4</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Gecko</td>
-                                <td>Mozilla 1.5</td>
-                                <td>Win 95+ / OSX.1+</td>
-                                <td>1.5</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Gecko</td>
-                                <td>Mozilla 1.6</td>
-                                <td>Win 95+ / OSX.1+</td>
-                                <td>1.6</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Gecko</td>
-                                <td>Mozilla 1.7</td>
-                                <td>Win 98+ / OSX.1+</td>
-                                <td>1.7</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Gecko</td>
-                                <td>Mozilla 1.8</td>
-                                <td>Win 98+ / OSX.1+</td>
-                                <td>1.8</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Gecko</td>
-                                <td>Seamonkey 1.1</td>
-                                <td>Win 98+ / OSX.2+</td>
-                                <td>1.8</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Gecko</td>
-                                <td>Epiphany 2.20</td>
-                                <td>Gnome</td>
-                                <td>1.8</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Webkit</td>
-                                <td>Safari 1.2</td>
-                                <td>OSX.3</td>
-                                <td>125.5</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Webkit</td>
-                                <td>Safari 1.3</td>
-                                <td>OSX.3</td>
-                                <td>312.8</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Webkit</td>
-                                <td>Safari 2.0</td>
-                                <td>OSX.4+</td>
-                                <td>419.3</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Webkit</td>
-                                <td>Safari 3.0</td>
-                                <td>OSX.4+</td>
-                                <td>522.1</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Webkit</td>
-                                <td>OmniWeb 5.5</td>
-                                <td>OSX.4+</td>
-                                <td>420</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Webkit</td>
-                                <td>iPod Touch / iPhone</td>
-                                <td>iPod</td>
-                                <td>420.1</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Webkit</td>
-                                <td>S60</td>
-                                <td>S60</td>
-                                <td>413</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Presto</td>
-                                <td>Opera 7.0</td>
-                                <td>Win 95+ / OSX.1+</td>
-                                <td>-</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Presto</td>
-                                <td>Opera 7.5</td>
-                                <td>Win 95+ / OSX.2+</td>
-                                <td>-</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Presto</td>
-                                <td>Opera 8.0</td>
-                                <td>Win 95+ / OSX.2+</td>
-                                <td>-</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Presto</td>
-                                <td>Opera 8.5</td>
-                                <td>Win 95+ / OSX.2+</td>
-                                <td>-</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Presto</td>
-                                <td>Opera 9.0</td>
-                                <td>Win 95+ / OSX.3+</td>
-                                <td>-</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Presto</td>
-                                <td>Opera 9.2</td>
-                                <td>Win 88+ / OSX.3+</td>
-                                <td>-</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Presto</td>
-                                <td>Opera 9.5</td>
-                                <td>Win 88+ / OSX.3+</td>
-                                <td>-</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Presto</td>
-                                <td>Opera for Wii</td>
-                                <td>Wii</td>
-                                <td>-</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Presto</td>
-                                <td>Nokia N800</td>
-                                <td>N800</td>
-                                <td>-</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Presto</td>
-                                <td>Nintendo DS browser</td>
-                                <td>Nintendo DS</td>
-                                <td>8.5</td>
-                                <td>C/A<sup>1</sup></td>
-                                </tr>
-                                <tr>
-                                <td>KHTML</td>
-                                <td>Konqureror 3.1</td>
-                                <td>KDE 3.1</td>
-                                <td>3.1</td>
-                                <td>C</td>
-                                </tr>
-                                <tr>
-                                <td>KHTML</td>
-                                <td>Konqureror 3.3</td>
-                                <td>KDE 3.3</td>
-                                <td>3.3</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>KHTML</td>
-                                <td>Konqureror 3.5</td>
-                                <td>KDE 3.5</td>
-                                <td>3.5</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Tasman</td>
-                                <td>Internet Explorer 4.5</td>
-                                <td>Mac OS 8-9</td>
-                                <td>-</td>
-                                <td>X</td>
-                                </tr>
-                                <tr>
-                                <td>Tasman</td>
-                                <td>Internet Explorer 5.1</td>
-                                <td>Mac OS 7.6-9</td>
-                                <td>1</td>
-                                <td>C</td>
-                                </tr>
-                                <tr>
-                                <td>Tasman</td>
-                                <td>Internet Explorer 5.2</td>
-                                <td>Mac OS 8-X</td>
-                                <td>1</td>
-                                <td>C</td>
-                                </tr>
-                                <tr>
-                                <td>Misc</td>
-                                <td>NetFront 3.1</td>
-                                <td>Embedded devices</td>
-                                <td>-</td>
-                                <td>C</td>
-                                </tr>
-                                <tr>
-                                <td>Misc</td>
-                                <td>NetFront 3.4</td>
-                                <td>Embedded devices</td>
-                                <td>-</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Misc</td>
-                                <td>Dillo 0.8</td>
-                                <td>Embedded devices</td>
-                                <td>-</td>
-                                <td>X</td>
-                                </tr>
-                                <tr>
-                                <td>Misc</td>
-                                <td>Links</td>
-                                <td>Text only</td>
-                                <td>-</td>
-                                <td>X</td>
-                                </tr>
-                                <tr>
-                                <td>Misc</td>
-                                <td>Lynx</td>
-                                <td>Text only</td>
-                                <td>-</td>
-                                <td>X</td>
-                                </tr>
-                                <tr>
-                                <td>Misc</td>
-                                <td>IE Mobile</td>
-                                <td>Windows Mobile 6</td>
-                                <td>-</td>
-                                <td>C</td>
-                                </tr>
-                                <tr>
-                                <td>Misc</td>
-                                <td>PSP browser</td>
-                                <td>PSP</td>
-                                <td>-</td>
-                                <td>C</td>
-                                </tr>
-                                <tr>
-                                <td>Other browsers</td>
-                                <td>All others</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>U</td>
-                                </tr>
-                                </tbody>
-                                <tfoot>
-                                <tr>
-                                <th>Rendering engine</th>
-                                <th>Browser</th>
-                                <th>Platform(s)</th>
-                                <th>Engine version</th>
-                                <th>CSS grade</th>
-                                </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                    </div>
-                    <!-- /.card-body -->
-                    <div class="card-footer">
                     
-                    </div>
-                    <!-- /.card-footer-->
-                </div>
-                <!--/.direct-chat -->
+                    <!-- Population Growth Rate -->
+                    <div class="col-lg-6">
+                        <div class="small-box bg-success">
+                            <div class="inner">
+                                <h3 id="growth-value">0<sup style="font-size: 20px">%</sup></h3>
+                                <p>Population Growth Rate</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-person-add"></i>
+                            </div>
 
-                <!-- Population Data -->
-                <div class="card population-data">
-                    <div class="card-header">
-                        <h3 class="card-title">Population Data</h3>
+                            <a href="#" class="small-box-footer" data-toggle="modal" data-target="#growth-rate-card">More info <i class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+
+                    <!-- Consumption Per Capita -->
+                    <div class="col-lg-6">
+                        <div class="small-box bg-warning">
+                            <div class="inner">
+                                <h3 id="consumption-value">0<sup style="font-size: 20px">kg</sup></h3>
+                                <p>Consumption Per Capita</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-pie-graph"></i>
+                            </div>
+
+                            <a href="#" class="small-box-footer" data-toggle="modal" data-target="#consumption-capita-card">More info <i class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+
+                    <!-- Remaining Stock -->
+                    <div class="col-lg-6">
+                        <div class="small-box bg-danger">
+                            <div class="inner">
+                                <h3 id="stock-value">0<sup style="font-size: 20px">days</sup></h3>
+                                <p>Remaining Stock</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-stats-bars"></i>
+                            </div>
+
+                            <a href="#" class="small-box-footer" data-toggle="modal" data-target="#stock-card">More info <i class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Stock Graph -->
+                <div class="card bg-danger">
+                    <div class="card-header border-0">
+                        <h3 class="card-title">
+                            <i class="fas fa-th mr-1"></i>
+                            <b>Stock Data</b>
+                        </h3>
+
                         <div class="card-tools">
-                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                <i class="fas fa-minus"></i>
-                            </button>
-                            <button type="button" class="btn btn-tool" title="Contacts" data-widget="chat-pane-toggle">
-                                <i class="fas fa-comments"></i>
-                            </button>
-                            <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                <i class="fas fa-times"></i>
-                            </button>
+                            <button type="button" title = "Upload Data" class="btn bg-gradient-danger btn-sm" data-toggle="modal" data-target="#upload-stock-data">
+                                <i class="fas fa-upload"></i>
+                            </button> 
+
+                            <button type="button" title = "Download Data" class="btn bg-gradient-danger btn-sm">
+                                <i class="fas fa-download"></i>
+                            </button>                    
                         </div>
                     </div>
-                    <!-- /.card-header -->
-                    <div class="card-body">
-                        <div class="d-flex mb-3" style="gap: 10px;">
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#form-population-data">
-                                <i class="fas fa-plus"></i> Add Data
-                            </button>
-                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#form-population-data">
-                                <i class="fas fa-plus"></i> Delete Data
-                            </button>
-                            <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#upload-population-data">
-                                <i class="fas fa-plus"></i> Upload Data
-                            </button>
-                        </div>
-                        <div>
-                            <table id="example2" class="table table-bordered table-hover datatables" style="width: 100%">
-                                <thead>
-                                <tr>
-                                <th>Rendering engine</th>
-                                <th>Browser</th>
-                                <th>Platform(s)</th>
-                                <th>Engine version</th>
-                                <th>CSS grade</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                <td>Trident</td>
-                                <td>Internet
-                                    Explorer 4.0
-                                </td>
-                                <td>Win 95+</td>
-                                <td> 4</td>
-                                <td>X</td>
-                                </tr>
-                                <tr>
-                                <td>Trident</td>
-                                <td>Internet
-                                    Explorer 5.0
-                                </td>
-                                <td>Win 95+</td>
-                                <td>5</td>
-                                <td>C</td>
-                                </tr>
-                                <tr>
-                                <td>Trident</td>
-                                <td>Internet
-                                    Explorer 5.5
-                                </td>
-                                <td>Win 95+</td>
-                                <td>5.5</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Trident</td>
-                                <td>Internet
-                                    Explorer 6
-                                </td>
-                                <td>Win 98+</td>
-                                <td>6</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Trident</td>
-                                <td>Internet Explorer 7</td>
-                                <td>Win XP SP2+</td>
-                                <td>7</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Trident</td>
-                                <td>AOL browser (AOL desktop)</td>
-                                <td>Win XP</td>
-                                <td>6</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Gecko</td>
-                                <td>Firefox 1.0</td>
-                                <td>Win 98+ / OSX.2+</td>
-                                <td>1.7</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Gecko</td>
-                                <td>Firefox 1.5</td>
-                                <td>Win 98+ / OSX.2+</td>
-                                <td>1.8</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Gecko</td>
-                                <td>Firefox 2.0</td>
-                                <td>Win 98+ / OSX.2+</td>
-                                <td>1.8</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Gecko</td>
-                                <td>Firefox 3.0</td>
-                                <td>Win 2k+ / OSX.3+</td>
-                                <td>1.9</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Gecko</td>
-                                <td>Camino 1.0</td>
-                                <td>OSX.2+</td>
-                                <td>1.8</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Gecko</td>
-                                <td>Camino 1.5</td>
-                                <td>OSX.3+</td>
-                                <td>1.8</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Gecko</td>
-                                <td>Netscape 7.2</td>
-                                <td>Win 95+ / Mac OS 8.6-9.2</td>
-                                <td>1.7</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Gecko</td>
-                                <td>Netscape Browser 8</td>
-                                <td>Win 98SE+</td>
-                                <td>1.7</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Gecko</td>
-                                <td>Netscape Navigator 9</td>
-                                <td>Win 98+ / OSX.2+</td>
-                                <td>1.8</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Gecko</td>
-                                <td>Mozilla 1.0</td>
-                                <td>Win 95+ / OSX.1+</td>
-                                <td>1</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Gecko</td>
-                                <td>Mozilla 1.1</td>
-                                <td>Win 95+ / OSX.1+</td>
-                                <td>1.1</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Gecko</td>
-                                <td>Mozilla 1.2</td>
-                                <td>Win 95+ / OSX.1+</td>
-                                <td>1.2</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Gecko</td>
-                                <td>Mozilla 1.3</td>
-                                <td>Win 95+ / OSX.1+</td>
-                                <td>1.3</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Gecko</td>
-                                <td>Mozilla 1.4</td>
-                                <td>Win 95+ / OSX.1+</td>
-                                <td>1.4</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Gecko</td>
-                                <td>Mozilla 1.5</td>
-                                <td>Win 95+ / OSX.1+</td>
-                                <td>1.5</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Gecko</td>
-                                <td>Mozilla 1.6</td>
-                                <td>Win 95+ / OSX.1+</td>
-                                <td>1.6</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Gecko</td>
-                                <td>Mozilla 1.7</td>
-                                <td>Win 98+ / OSX.1+</td>
-                                <td>1.7</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Gecko</td>
-                                <td>Mozilla 1.8</td>
-                                <td>Win 98+ / OSX.1+</td>
-                                <td>1.8</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Gecko</td>
-                                <td>Seamonkey 1.1</td>
-                                <td>Win 98+ / OSX.2+</td>
-                                <td>1.8</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Gecko</td>
-                                <td>Epiphany 2.20</td>
-                                <td>Gnome</td>
-                                <td>1.8</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Webkit</td>
-                                <td>Safari 1.2</td>
-                                <td>OSX.3</td>
-                                <td>125.5</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Webkit</td>
-                                <td>Safari 1.3</td>
-                                <td>OSX.3</td>
-                                <td>312.8</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Webkit</td>
-                                <td>Safari 2.0</td>
-                                <td>OSX.4+</td>
-                                <td>419.3</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Webkit</td>
-                                <td>Safari 3.0</td>
-                                <td>OSX.4+</td>
-                                <td>522.1</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Webkit</td>
-                                <td>OmniWeb 5.5</td>
-                                <td>OSX.4+</td>
-                                <td>420</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Webkit</td>
-                                <td>iPod Touch / iPhone</td>
-                                <td>iPod</td>
-                                <td>420.1</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Webkit</td>
-                                <td>S60</td>
-                                <td>S60</td>
-                                <td>413</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Presto</td>
-                                <td>Opera 7.0</td>
-                                <td>Win 95+ / OSX.1+</td>
-                                <td>-</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Presto</td>
-                                <td>Opera 7.5</td>
-                                <td>Win 95+ / OSX.2+</td>
-                                <td>-</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Presto</td>
-                                <td>Opera 8.0</td>
-                                <td>Win 95+ / OSX.2+</td>
-                                <td>-</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Presto</td>
-                                <td>Opera 8.5</td>
-                                <td>Win 95+ / OSX.2+</td>
-                                <td>-</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Presto</td>
-                                <td>Opera 9.0</td>
-                                <td>Win 95+ / OSX.3+</td>
-                                <td>-</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Presto</td>
-                                <td>Opera 9.2</td>
-                                <td>Win 88+ / OSX.3+</td>
-                                <td>-</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Presto</td>
-                                <td>Opera 9.5</td>
-                                <td>Win 88+ / OSX.3+</td>
-                                <td>-</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Presto</td>
-                                <td>Opera for Wii</td>
-                                <td>Wii</td>
-                                <td>-</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Presto</td>
-                                <td>Nokia N800</td>
-                                <td>N800</td>
-                                <td>-</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Presto</td>
-                                <td>Nintendo DS browser</td>
-                                <td>Nintendo DS</td>
-                                <td>8.5</td>
-                                <td>C/A<sup>1</sup></td>
-                                </tr>
-                                <tr>
-                                <td>KHTML</td>
-                                <td>Konqureror 3.1</td>
-                                <td>KDE 3.1</td>
-                                <td>3.1</td>
-                                <td>C</td>
-                                </tr>
-                                <tr>
-                                <td>KHTML</td>
-                                <td>Konqureror 3.3</td>
-                                <td>KDE 3.3</td>
-                                <td>3.3</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>KHTML</td>
-                                <td>Konqureror 3.5</td>
-                                <td>KDE 3.5</td>
-                                <td>3.5</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Tasman</td>
-                                <td>Internet Explorer 4.5</td>
-                                <td>Mac OS 8-9</td>
-                                <td>-</td>
-                                <td>X</td>
-                                </tr>
-                                <tr>
-                                <td>Tasman</td>
-                                <td>Internet Explorer 5.1</td>
-                                <td>Mac OS 7.6-9</td>
-                                <td>1</td>
-                                <td>C</td>
-                                </tr>
-                                <tr>
-                                <td>Tasman</td>
-                                <td>Internet Explorer 5.2</td>
-                                <td>Mac OS 8-X</td>
-                                <td>1</td>
-                                <td>C</td>
-                                </tr>
-                                <tr>
-                                <td>Misc</td>
-                                <td>NetFront 3.1</td>
-                                <td>Embedded devices</td>
-                                <td>-</td>
-                                <td>C</td>
-                                </tr>
-                                <tr>
-                                <td>Misc</td>
-                                <td>NetFront 3.4</td>
-                                <td>Embedded devices</td>
-                                <td>-</td>
-                                <td>A</td>
-                                </tr>
-                                <tr>
-                                <td>Misc</td>
-                                <td>Dillo 0.8</td>
-                                <td>Embedded devices</td>
-                                <td>-</td>
-                                <td>X</td>
-                                </tr>
-                                <tr>
-                                <td>Misc</td>
-                                <td>Links</td>
-                                <td>Text only</td>
-                                <td>-</td>
-                                <td>X</td>
-                                </tr>
-                                <tr>
-                                <td>Misc</td>
-                                <td>Lynx</td>
-                                <td>Text only</td>
-                                <td>-</td>
-                                <td>X</td>
-                                </tr>
-                                <tr>
-                                <td>Misc</td>
-                                <td>IE Mobile</td>
-                                <td>Windows Mobile 6</td>
-                                <td>-</td>
-                                <td>C</td>
-                                </tr>
-                                <tr>
-                                <td>Misc</td>
-                                <td>PSP browser</td>
-                                <td>PSP</td>
-                                <td>-</td>
-                                <td>C</td>
-                                </tr>
-                                <tr>
-                                <td>Other browsers</td>
-                                <td>All others</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>U</td>
-                                </tr>
-                                </tbody>
-                                <tfoot>
-                                <tr>
-                                <th>Rendering engine</th>
-                                <th>Browser</th>
-                                <th>Platform(s)</th>
-                                <th>Engine version</th>
-                                <th>CSS grade</th>
-                                </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                    </div>
-                    <!-- /.card-body -->
-                    <div class="card-footer">
-                    
-                    </div>
-                    <!-- /.card-footer-->
+                    <div class="card-body" id="stock-parent-div">
+                        <h4 class="card-title">
+                            <b>No Data</b>
+                        </h4> 
+                    </div>       
+
+                    <a href="#" class="card-footer bg-gradient-danger" data-toggle="modal" data-target="#stock-data">More info <i class="fas fa-arrow-circle-right"></i></a>                                       
                 </div>
-            <!-- /.card -->
             </section>
-            <!-- /.Left col -->
-            <!-- right col (We are only adding the ID to make the widgets sortable)-->
-            <section class="col-lg-5 connectedSortable">
 
-                <!-- Map card -->
-                <div class="card bg-gradient-primary">
+            <!-- ----- Right-Widget Section ----- -->
+            <section class="col-lg-5">               
+                <!-- Population Graph -->
+                <div class="card bg-success">
                     <div class="card-header border-0">
-                    <h3 class="card-title">
-                        <i class="fas fa-map-marker-alt mr-1"></i>
-                        Visitors
-                    </h3>
-                    <!-- card tools -->
-                    <div class="card-tools">
-                        <button type="button" class="btn btn-primary btn-sm daterange" title="Date range">
-                        <i class="far fa-calendar-alt"></i>
-                        </button>
-                        <button type="button" class="btn btn-primary btn-sm" data-card-widget="collapse" title="Collapse">
-                        <i class="fas fa-minus"></i>
-                        </button>
-                    </div>
-                    <!-- /.card-tools -->
-                    </div>
-                    <div class="card-body">
-                    <div id="world-map" style="height: 250px; width: 100%;"></div>
-                    </div>
-                    <!-- /.card-body-->
-                    <div class="card-footer bg-transparent">
-                    <div class="row">
-                        <div class="col-4 text-center">
-                        <div id="sparkline-1"></div>
-                        <div class="text-white">Visitors</div>
-                        </div>
-                        <!-- ./col -->
-                        <div class="col-4 text-center">
-                        <div id="sparkline-2"></div>
-                        <div class="text-white">Online</div>
-                        </div>
-                        <!-- ./col -->
-                        <div class="col-4 text-center">
-                        <div id="sparkline-3"></div>
-                        <div class="text-white">Sales</div>
-                        </div>
-                        <!-- ./col -->
-                    </div>
-                    <!-- /.row -->
-                    </div>
-                </div>
-                <!-- /.card -->
+                        <h3 class="card-title">
+                            <i class="fas fa-th mr-1"></i>
+                            <b>Population - Consumption Data</b>
+                        </h3>
 
-                <!-- solid sales graph -->
-                <div class="card bg-gradient-info">
-                    <div class="card-header border-0">
-                    <h3 class="card-title">
-                        <i class="fas fa-th mr-1"></i>
-                        Sales Graph
-                    </h3>
+                        <div class="card-tools">
+                            <button type="button" title = "Upload Data" class="btn bg-gradient-success btn-sm" data-toggle="modal" data-target="#upload-population-data">
+                                <i class="fas fa-upload"></i>
+                            </button>     
 
-                    <div class="card-tools">
-                        <button type="button" class="btn bg-info btn-sm" data-card-widget="collapse">
-                        <i class="fas fa-minus"></i>
-                        </button>
-                        <button type="button" class="btn bg-info btn-sm" data-card-widget="remove">
-                        <i class="fas fa-times"></i>
-                        </button>
+                            <button type="button" title = "Download Data" class="btn bg-gradient-success btn-sm">
+                                <i class="fas fa-download"></i>
+                            </button>                   
+                        </div>                        
                     </div>
+          
+                    <div class="card-body" id="population-parent-div">
+                        <h4 class="card-title">
+                            <b>No Data</b>
+                        </h4> 
                     </div>
-                    <div class="card-body">
-                    <canvas class="chart" id="line-chart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
-                    </div>
-                    <!-- /.card-body -->
-                    <div class="card-footer bg-transparent">
-                    <div class="row">
-                        <div class="col-4 text-center">
-                        <input type="text" class="knob" data-readonly="true" value="20" data-width="60" data-height="60"
-                                data-fgColor="#39CCCC">
 
-                        <div class="text-white">Mail-Orders</div>
-                        </div>
-                        <!-- ./col -->
-                        <div class="col-4 text-center">
-                        <input type="text" class="knob" data-readonly="true" value="50" data-width="60" data-height="60"
-                                data-fgColor="#39CCCC">
+                    <div class="card-body" id="consumption-parent-div">
+                    </div>
 
-                        <div class="text-white">Online</div>
-                        </div>
-                        <!-- ./col -->
-                        <div class="col-4 text-center">
-                        <input type="text" class="knob" data-readonly="true" value="30" data-width="60" data-height="60"
-                                data-fgColor="#39CCCC">
-
-                        <div class="text-white">In-Store</div>
-                        </div>
-                        <!-- ./col -->
-                    </div>
-                    <!-- /.row -->
-                    </div>
-                    <!-- /.card-footer -->
-                </div>
-                <!-- /.card -->
-
-                <!-- Calendar -->
-                <div class="card bg-gradient-success">
-                    <div class="card-header border-0">
-
-                    <h3 class="card-title">
-                        <i class="far fa-calendar-alt"></i>
-                        Calendar
-                    </h3>
-                    <!-- tools card -->
-                    <div class="card-tools">
-                        <!-- button with a dropdown -->
-                        <div class="btn-group">
-                        <button type="button" class="btn btn-success btn-sm dropdown-toggle" data-toggle="dropdown" data-offset="-52">
-                            <i class="fas fa-bars"></i>
-                        </button>
-                        <div class="dropdown-menu" role="menu">
-                            <a href="#" class="dropdown-item">Add new event</a>
-                            <a href="#" class="dropdown-item">Clear events</a>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item">View calendar</a>
-                        </div>
-                        </div>
-                        <button type="button" class="btn btn-success btn-sm" data-card-widget="collapse">
-                        <i class="fas fa-minus"></i>
-                        </button>
-                        <button type="button" class="btn btn-success btn-sm" data-card-widget="remove">
-                        <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                    <!-- /. tools -->
-                    </div>
-                    <!-- /.card-header -->
-                    <div class="card-body pt-0">
-                    <!--The calendar -->
-                    <div id="calendar" style="width: 100%"></div>
-                    </div>
-                    <!-- /.card-body -->
-                </div>
-                <!-- /.card -->
+                    <a href="#" class="card-footer bg-gradient-success" data-toggle="modal" data-target="#population-data">More info <i class="fas fa-arrow-circle-right"></i></a>
+                </div>                
             </section>
-            <!-- right col -->
-        </div>
-        <!-- /.row (main row) -->
-    </div>
-
-    <!-- Modals -->
-    <div class="modal fade" id="form-stock-record">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <form>
-                    <div class="modal-header">
-                        <h4 class="modal-title">Stock Record</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="stockRecord-year">Year</label>
-                            <input type="text" class="form-control" id="stockRecord-year" name="year" placeholder="Enter year">
-                        </div>
-                        <div class="form-group">
-                            <label for="stockRecord-month">Month</label>
-                            <input type="text" class="form-control" id="stockRecord-month" name="month" placeholder="Enter month">
-                        </div>
-                        <div class="form-group">
-                            <label for="stockRecord-avgStock">Average Stock</label>
-                            <input type="text" class="form-control" id="stockRecord-avgStock" name="avgStock" placeholder="Enter average stock">
-                        </div>
-                        <div class="form-check d-none">
-                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                            <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                        </div>
-                    </div>
-                    <div class="modal-footer justify-content-between">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                    </div>
-                </form>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
-    <div class="modal fade" id="upload-stock-record">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <form method="post" action="../api/insert-stock-bulk/" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <div class="modal-header">
-                        <h4 class="modal-title">Upload Stock Record</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="exampleInputFile">File input</label>
-                            <div class="input-group">
-                                <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="exampleInputFile" name="file">
-                                    <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                                </div>
-                                <div class="input-group-append">
-                                    <span class="input-group-text">Upload</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer justify-content-between">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
-                    </div>
-                </form>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
-    <div class="modal fade" id="form-population-data">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <form>
-                    <div class="modal-header">
-                        <h4 class="modal-title">Population Data</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="stockRecord-year">Year</label>
-                            <input type="text" class="form-control" id="populationData-year" name="year" placeholder="Enter year">
-                        </div>
-                        <div class="form-group">
-                            <label for="stockRecord-month">Population</label>
-                            <input type="text" class="form-control" id="populationData-population" name="month" placeholder="Enter population">
-                        </div>
-                        <div class="form-group">
-                            <label for="stockRecord-avgStock">Consumption Rate</label>
-                            <input type="text" class="form-control" id="populationData-consumptionRate" name="consumptionRate" placeholder="Enter consumption rate">
-                        </div>
-                        <div class="form-group d-none">
-                            <label for="exampleInputFile">File input</label>
-                            <div class="input-group">
-                            <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="exampleInputFile">
-                                <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                            </div>
-                            <div class="input-group-append">
-                                <span class="input-group-text">Upload</span>
-                            </div>
-                            </div>
-                        </div>
-                        <div class="form-check d-none">
-                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                            <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                        </div>
-                    </div>
-                    <div class="modal-footer justify-content-between">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                    </div>
-                </form>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
-    <div class="modal fade" id="upload-population-data">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <form>
-                    <div class="modal-header">
-                        <h4 class="modal-title">Upload Population Data</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="exampleInputFile">File input</label>
-                            <div class="input-group">
-                                <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="exampleInputFile" name="file">
-                                    <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                                </div>
-                                <div class="input-group-append">
-                                    <span class="input-group-text">Upload</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer justify-content-between">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
-                    </div>
-                </form>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
-    <!-- End Modals -->
+        </div>       
+    </div>    
 </section>
+
+<section class="content">
+    <div class="container-fluid col-lg-9">
+        
+        <!-- Stock Graph -->
+        <div class="card">            
+            <div class="card-header border-0">
+                <h3 class="card-title">
+                    <i class="fas fa-th mr-1"></i>
+                    <b>Data Forecasting</b>
+                </h3>                
+            </div>
+            
+            <div class="card-body">
+                <table id="forecast-table" class="table table-bordered table-hover" style="width: 100%">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Year</th>
+                            <th>Month</th>
+                            <th>Population</th>
+                            <th>Total Consumption (tons)</th>
+                            <th>Average Stock (tons)</th>
+                        </tr>
+                    </thead>
+                </table>                            
+            </div>                    
+        </div>   
+    </div>
+</section>
+
+<br/><br/>
+
+
+
+
+<!-- -----======= Data Table Section =======----- -->
+<!-- Population Data -->
+<div class="modal fade" id="population-data">
+    <div class="modal-dialog modal-lg modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">Population - Consumption Data</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div class="modal-body">
+            <div class="card population-data card-body">                    
+                <div class="d-flex mb-3" style="gap: 10px;">
+                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#upload-population-data">
+                        <i class="fas fa-upload"></i> Upload Data
+                    </button>
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#form-consumption-population-data">
+                        <i class="fas fa-plus"></i> Add Data
+                    </button>
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#form-population-data">
+                        <i class="fas fa-minus"></i> Delete Last Data
+                    </button>
+                </div>
+                <div>
+                    <table id="population-consumption-table" class="table table-bordered table-hover" style="width: 100%">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Year</th>
+                                <th>Population</th>
+                                <th>Consumption Rate (ton)</th>
+                            </tr>
+                        </thead>
+                    </table>                            
+                </div>                
+            </div>
+        </div>                           
+    </div>
+</div>
+
+<!-- Stock Data -->
+<div class="modal fade" id="stock-data">
+    <div class="modal-dialog modal-lg modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">Stock Data</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div class="modal-body">
+            <div class="card population-data card-body">                    
+                <div class="d-flex mb-3" style="gap: 10px;">
+                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#upload-stock-data">
+                        <i class="fas fa-upload"></i> Upload Data
+                    </button>
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#form-stock-data">
+                        <i class="fas fa-plus"></i> Add Data
+                    </button>
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#form-population-data">
+                        <i class="fas fa-minus"></i> Delete Last Data
+                    </button>
+                </div>
+                <div>
+                    <table id="stock-table" class="table table-bordered table-hover" style="width: 100%">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Year</th>
+                                <th>Month</th>
+                                <th>Average Stock (tons)</th>
+                            </tr>
+                        </thead>
+                    </table>                            
+                </div>                
+            </div>
+        </div>                           
+    </div>
+</div>
+
+
+
+
+<!-- -----======= Insert Data Section =======----- -->
+ <!-- Stock Data -->
+<div class="modal fade" id="form-stock-data">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form>
+                <div class="modal-header">
+                    <h4 class="modal-title">Insert Stock Data</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="stockRecord-year">Year</label>
+                        <input type="text" class="form-control" id="stockRecord-year" name="year" placeholder="Enter year">
+                    </div>
+                    <div class="form-group">
+                        <label for="stockRecord-month">Month</label>
+                        <input type="text" class="form-control" id="stockRecord-month" name="month" placeholder="Enter month">
+                    </div>
+                    <div class="form-group">
+                        <label for="stockRecord-avgStock">Average Stock</label>
+                        <input type="text" class="form-control" id="stockRecord-avgStock" name="avgStock" placeholder="Enter average stock">
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Population - Consumption Data -->
+<div class="modal fade" id="form-consumption-population-data">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form>
+                <div class="modal-header">
+                    <h4 class="modal-title">Insert Population - Consumption Data</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="stockRecord-year">Year</label>
+                        <input type="text" class="form-control" id="populationData-year" name="year" placeholder="Enter year">
+                    </div>
+                    <div class="form-group">
+                        <label for="stockRecord-month">Population</label>
+                        <input type="text" class="form-control" id="populationData-population" name="month" placeholder="Enter population">
+                    </div>
+                    <div class="form-group">
+                        <label for="stockRecord-avgStock">Consumption Rate</label>
+                        <input type="text" class="form-control" id="populationData-consumptionRate" name="consumptionRate" placeholder="Enter consumption rate">
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- -----======= Upload Data Section =======----- -->
+<!-- Bulk Population-Consumption upload -->
+<div class="modal fade" id="upload-population-data">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form  method="post" action="../api/insert-consumption-bulk/" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-header">
+                    <h4 class="modal-title">Upload Data</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="consumptionInputFile">File input</label>
+                        <div class="input-group">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="consumptionInputFile" name="file">
+                                <label class="custom-file-label" for="consumptionInputFile">Choose file</label>
+                            </div>         
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Bulk Stock Upload -->
+<div class="modal fade" id="upload-stock-data">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form method="post" action="../api/insert-stock-bulk/" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-header">
+                    <h4 class="modal-title">Upload Data</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="stockInputFile">File input</label>
+                        <div class="input-group">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="stockInputFile" name="file">
+                                <label class="custom-file-label" for="stockInputFile">Choose file</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- -----======= Card Modal Dialog Section =======----- -->
+<!-- Daily Needs -->
+<div class="modal fade" id="daily-needs-card">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            
+            <div class="modal-header">
+                <h4 class="modal-title">Daily Needs</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <p id = "daily-needs-caption">
+                        No Data
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Growth Rate -->
+<div class="modal fade" id="growth-rate-card">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            
+            <div class="modal-header">
+                <h4 class="modal-title">Population Growth Rate</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <p id = "growth-caption">
+                        No Data
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Consumption Per Capita -->
+<div class="modal fade" id="consumption-capita-card">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            
+            <div class="modal-header">
+                <h4 class="modal-title">Consumption Per Capita</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <p id = "consumption-caption">
+                        No Data
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Remaining Stock -->
+<div class="modal fade" id="stock-card">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            
+            <div class="modal-header">
+                <h4 class="modal-title">Remaining Stock</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <p id = "stock-caption">
+                        No Data
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- -----======= Script Section =======----- -->
 {% endblock %}
 {% block script %}
-<script>
-    $(function () {
-        $('.datatables').DataTable({
-            "paging": true,
-            "lengthChange": false,
-            "searching": false,
-            "ordering": true,
-            "info": true,
-            "autoWidth": false,
-            "responsive": true,
-        });
-
-        $('form').submit(function(e) {
-            e.preventDefault();
-
-            var form = this;
-            var formData = new FormData(form);
-            $.ajax({
-                url: form.action,
-                method: 'post',
-                data: formData,
-                processData: false,
-                contentType: false,
-                beforeSend: function() {
-                    $(document).Toasts('create', {
-                        class: 'bg-info',
-                        title: 'Toast Title',
-                        subtitle: 'Subtitle',
-                        body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
-                    });
-                    $('.modal').modal('hide');
-                },
-                success: function(data) {
-                    $(document).Toasts('create', {
-                        class: 'bg-success',
-                        title: 'Toast Title',
-                        subtitle: 'Subtitle',
-                        body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
-                    });
-                }
-            });
-        });
-    });
-</script>
+<script src="/static/dist/js/pages/dataRenderer.js"></script>
 {% endblock %}
