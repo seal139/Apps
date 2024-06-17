@@ -84,7 +84,7 @@ def viewStocks(requestParameter):
 
     exogeneous = []
     nextYear   = lastYear 
-    for i in range(1, 25):
+    for i in range(1, 13):
         nextMonth = (lastMonth + i) % 12
 
         if nextMonth == 0 :
@@ -206,19 +206,19 @@ def viewConsumption(requestParameter):
 
     print (prediction1)
     data1 = {
-        'id'          : 1,
-        'year'        : predictNext1,
-        'population'  : prediction1[0] ** 2,
-        'consumption' : prediction1[1] ** 2
+        'id'              : 1,
+        'year'            : predictNext1,
+        'population'      : prediction1[0] ** 2,
+        'consumptionRate' : prediction1[1] ** 2
     }
 
     predictNext2 = lastYear + 2
     prediction2 = ConsumptionPredictor.predict('population.model', 'consumption.model', predictNext2)
     data2 = {
-        'id'          : 2,
-        'year'        : predictNext2,
-        'population'  : prediction2[0] ** 2,
-        'consumption' : prediction2[1] ** 2
+        'id'              : 2,
+        'year'            : predictNext2,
+        'population'      : prediction2[0] ** 2,
+        'consumptionRate' : prediction2[1] ** 2
     }
 
     data = {
