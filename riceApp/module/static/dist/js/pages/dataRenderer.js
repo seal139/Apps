@@ -44,7 +44,43 @@ function updateStockTable(data) {
         data: data.data.historical,
         layout: {
             topStart: {
-                buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+                buttons: [
+                    {
+                        extend: 'csvHtml5',
+                        text: 'Print CSV Input Template',
+                        fieldSeparator: ',',
+                        title: 'Stock Input Template',
+                        exportOptions: {
+                            columns: ':visible', // Include visible columns for export
+                            format: {
+                                header: function (data, columnIdx) {
+                                    // Set custom column headers
+                                    switch (columnIdx) {
+                                        case 0: return 'month';
+                                        case 1: return 'year';
+                                        case 2: return 'stock';
+                                        default: return data;
+                                    }
+                                },
+                                body: function (data, row, column, node) {
+                                    // Remove commas and dots from the data
+                                    return String(data).replace(/,/g, '');
+                                }
+                            }
+                        },
+                        customize: function(csv) {
+                            return csv.replace(/\"/g, '');
+                        }
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        title: 'Stock Data',
+                        text: 'Print PDF',
+                        exportOptions: {
+                            columns: ':visible' // Exclude the first column (id)
+                        }
+                    },
+                ]
             }
         },
         pageLength: 5,
