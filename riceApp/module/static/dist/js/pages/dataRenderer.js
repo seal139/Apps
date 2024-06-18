@@ -42,8 +42,13 @@ function updateStockTable(data) {
     $('#stock-table').DataTable().destroy();                
     $('#stock-table').DataTable( {
         data: data.data.historical,
+        layout: {
+            topStart: {
+                buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+            }
+        },
         pageLength: 5,
-        dom: 'frtip',
+        bLengthChange : false,
         columns: [
             { data: 'id', visible: false },
             { data: 'year', type: 'num' },
@@ -69,9 +74,51 @@ function updatePopulationConsumptionTable(data){
 
     $('#population-consumption-table').DataTable().destroy();
     $('#population-consumption-table').DataTable( {
+        order: [[ 1, 'asc' ]],
+        layout: {
+            topStart: {
+                buttons: [
+                    {
+                        extend: 'csvHtml5',
+                        text: 'Print CSV Input Template',
+                        fieldSeparator: ',',
+                        title: 'Population -  Consumption Input Template',
+                        exportOptions: {
+                            columns: ':visible', // Include visible columns for export
+                            format: {
+                                header: function (data, columnIdx) {
+                                    // Set custom column headers
+                                    switch (columnIdx) {
+                                        case 0: return 'year';
+                                        case 1: return 'population';
+                                        case 2: return 'consumption';
+                                        default: return data;
+                                    }
+                                },
+                                body: function (data, row, column, node) {
+                                    // Remove commas and dots from the data
+                                    return String(data).replace(/,/g, '');
+                                }
+                            }
+                        },
+                        customize: function(csv) {
+                            return csv.replace(/\"/g, '');
+                        }
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        title: 'Population -  Consumption Data',
+                        text: 'Print PDF',
+                        exportOptions: {
+                            columns: ':visible' // Exclude the first column (id)
+                        }
+                    },
+                ]
+            }
+        },
         data: data.data.historical,
+        bLengthChange : false,
         pageLength: 5,
-        dom: 'frtip',
         columns: [
             { data: 'id', visible: false },
             { data: 'year', type: 'num' },
@@ -234,10 +281,19 @@ function refresh() {
         $('#forecast-table').DataTable( {
             layout: {
                 topStart: {
-                    buttons: ['csv']
+                    buttons: [
+                        {
+                            extend: 'pdfHtml5',
+                            title: 'Forecast Data',
+                            text: 'Print PDF',
+                            exportOptions: {
+                                columns: ':visible' // Exclude the first column (id)
+                            }
+                        },
+                    ]
                 }
             },
-            dom: 'frtip',
+           
             bInfo : false,
             bPaginate : false,
             bLengthChange : false,
